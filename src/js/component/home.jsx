@@ -16,7 +16,7 @@ const Home = () => {
 		};
 
 		fetch(url, parameters)
-			.then(res => res.json())
+			.then(res => res.text())
 			.then(setText)
 			.catch(err => setText(err.toString()));
 	}, []);
