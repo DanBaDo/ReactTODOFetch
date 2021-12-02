@@ -9,7 +9,7 @@ const Tasks = () => {
 
 	const APIURL = "https://assets.breatheco.de/apis/fake/todos/user/danieloos";
 
-	function tasksREST(
+	function tasksREST( // Takes HTTP request method and callbacks for resolve and reject cases.
 		method,
 		data = null,
 		resolve = () => {},
@@ -55,15 +55,17 @@ const Tasks = () => {
 
 	//Hooks
 
-	const [tasks, setTasks] = useState();
-	const [newTask, setNewTask] = useState("");
-	const [firstLoad, setFirstLoad] = useState(true);
+	const [tasks, setTasks] = useState(); // Tasks list
+	const [newTask, setNewTask] = useState(""); // Input content
+	const [firstLoad, setFirstLoad] = useState(true); // Flag for avoiding first rerendering
 
 	useEffect(() => {
-		tasksREST("GET", null, setTasks, () => setTasks([]));
+		// Runs on component instantiation.
+		tasksREST("GET", null, setTasks, console.alert);
 	}, []);
 
 	useEffect(() => {
+		// Runs on setTasks calls
 		if (!firstLoad)
 			tasksREST("PUT", JSON.stringify(tasks), console.log, console.alert);
 		else if (Array.isArray(tasks)) setFirstLoad(false);
@@ -73,9 +75,12 @@ const Tasks = () => {
 		<div className="text-center mt-5">
 			<ul>
 				{Array.isArray(tasks) && tasks.length === 1 && tasks[0].done ? (
-					<p>No pending tasks</p>
+					<p>No pending tasks</p> // Shows if only lonely hidden tasks
 				) : Array.isArray(tasks) && tasks.length > 0 ? (
-					tasks.map((item, idx) => (
+					tasks.map((
+						item,
+						idx // Else, render tasks if tasks list
+					) => (
 						<li key={idx} className={item.done ? "hidden" : ""}>
 							{item.label}{" "}
 							<span data-idx={idx} onClick={deleteTask}>
@@ -84,7 +89,7 @@ const Tasks = () => {
 						</li>
 					))
 				) : (
-					<p>Waiting for tasks...</p>
+					<p>Waiting for tasks...</p> // If there is not a tasks list at all
 				)}
 			</ul>
 			<div>
