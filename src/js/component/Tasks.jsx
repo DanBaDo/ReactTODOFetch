@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+// Resources
+
+import "../../styles/Tasks.scss";
+
 const Tasks = () => {
 	//Handlers&Aux
+
+	const APIURL = "https://assets.breatheco.de/apis/fake/todos/user/danieloos";
 
 	function tasksREST(
 		method,
@@ -10,7 +16,7 @@ const Tasks = () => {
 		reject = () => {}
 	) {
 		const api = {
-			url: "https://assets.breatheco.de/apis/fake/todos/user/danieloos",
+			url: APIURL,
 			GET: {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -37,13 +43,13 @@ const Tasks = () => {
 
 	function addTask() {
 		setTasks([...tasks, { label: newTask, done: false }]);
-		//tasksREST("PUT", JSON.stringify(tasks), console.log, console.alert);
 		setNewTask("");
 	}
 
 	function deleteTask(ev) {
 		const newTasks = [...tasks];
-		newTasks.splice(ev.target.dataset.idx, 1);
+		if (newTasks.length > 1) newTasks.splice(ev.target.dataset.idx, 1);
+		else newTasks[ev.target.dataset.idx].done = true;
 		setTasks([...newTasks]);
 	}
 
@@ -66,17 +72,17 @@ const Tasks = () => {
 	return (
 		<div className="text-center mt-5">
 			<ul>
-				{Array.isArray(tasks) && tasks.length > 0 ? (
+				{Array.isArray(tasks) && tasks.length === 1 && tasks[0].done ? (
+					<p>No pending tasks</p>
+				) : Array.isArray(tasks) && tasks.length > 0 ? (
 					tasks.map((item, idx) => (
-						<li key={idx}>
+						<li key={idx} className={item.done ? "hidden" : ""}>
 							{item.label}{" "}
 							<span data-idx={idx} onClick={deleteTask}>
 								[x]
 							</span>
 						</li>
 					))
-				) : Array.isArray(tasks) && tasks.lenght === 0 ? (
-					<p>No pending tasks</p>
 				) : (
 					<p>Waiting for tasks...</p>
 				)}
