@@ -1,41 +1,20 @@
-# Hello World with React boilerplate
-<p>
-  <a href="https://gitpod.io#https://github.com/4GeeksAcademy/react-hello.git"><img src="https://raw.githubusercontent.com/4GeeksAcademy/react-hello/master/open-in-gitpod.svg?sanitize=true" />
-  </a>
-</p>
+# Simple React TODO app syncing to backend over a fkng REST API
 
-This template is similar to create-react-app but it's meant for 4Geeks Academy students.
+App provides a way for add and remove tasks in a list, keeping that synced in a backend by using a REST API.
+Text interface. I like it.
 
-##### Download the boilerplate using git
+## How ir works.
 
-```
-$ git clone https://github.com/4GeeksAcademy/react-hello.git
-$ cd react-hello
-```
+It uses useEffect for dong a initial backend to frontend synchornization.
 
-##### and install the npm package:
-```
-$ npm install
-```
+Later, uses another useEffect instance, depending on frontend task state for keep local changes synchronized on backend.
 
-## Start coding!
+tasksREST function gives some sugar over the JS fetch for this specific case. 
 
-For Windows, Mac, Linux or Gitpod, start the webpack server with live reload:
-- `$ npm run start`
+## Fkng REST API workaround.
 
-You can update the `styles/index.scss` or `js/index.js` depending on your needs.
-Add more files into your, `./src/js/components` or styles folder as you need them.
+Backend don't accept empty tasks lists for updates.
 
-## Publish your website!
+When removing tasks, remove in frontend and backend until last remaining task. For the las task, keep it in backend, marked as done, and hide it in frontend to avoid saving all trash os the universe in de backend.
 
-This boilerplate is 100% compatible with the free [github pages](https://pages.github.com/) and [vercel](https://vercel.com/) hosting.
-
-It takes just 2 minutes to deploy, [click here to start the process](https://github.com/4GeeksAcademy/react-hello/blob/master/docs/DEPLOY.md).
-
-## Other features
-
-- Automatic Code Formatting: Use of [Prettier](https://prettier.io/) for automatic code indentation and formatting.
-- Error reporting: Use of [eslint](https://eslint.org/) for better error reporting.
-- Hot Deploy: Use of [Webpack Development Server](https://webpack.js.org/configuration/dev-server/) for hot deploy and live reload.
-- One-command publish of the code to github pages with `npm run deploy:github`.
-- Babel 7 (really fast).
+Signon and signoff proccess have been completed out of app using Insomnia.
